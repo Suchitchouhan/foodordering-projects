@@ -1,0 +1,32 @@
+{% extends "cms/base.html" %}
+      {% block content %}
+      <div id="store">
+         <ul class="special-head">
+            <li><a href="/index/">Home</a></li>
+            <li>Food</li>
+          </ul>
+         <a class="add-btn" href="/add_food_specification/{{ uid }}/">&#43; Add Specification</a>
+         <div class="table-wrapper">
+            <table class="large-table">
+               <tr>
+                  <th>specification</th>
+                  <th>Description</th>
+                  <th>Operation</th>
+               </tr>
+               {% for x in specification %}
+               <tr>
+                  <td>{{ x.specification }}</td>
+                  <td>{{ x.des }}</td>
+                  <td>
+                     <a class="small-btn" href="/delete_food_specification/{{ uid }}&{{ x.pk }}/" style="font-size: 0.7rem;">Delete</a>
+                  </td>
+               </tr>
+               {% endfor %}
+            </table>
+         </div>
+         
+         <a class="back-btn" href="/view_food/{{ p_uid }}/"><span>&#8592;</span> Back</a>
+      </div>
+
+
+{% endblock content %}                  

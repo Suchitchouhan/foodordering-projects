@@ -1,0 +1,31 @@
+{% extends "cms/base.html" %}
+      {% block content %}
+       <div id="store-categories">
+         <ul class="special-head">
+            <li><a href="/index/">Home</a></li>
+            <li><a href="/view_promo_code/">Promo code</a></li>
+            <li>Add promo code</li>
+          </ul>
+         <form action="/update_promo_code/{{ pk }}/" method="POST" enctype="multipart/form-data" class="add-form">
+         	{% csrf_token %}
+            <div class="inputs-wrapper">
+               <div class="name-field">
+                  <label for="name">code: </label>
+                  <input type="text" name="code" value="{{ code.code }}" placeholder="Don't use space please" required>
+               </div>
+               <div class="name-field">
+                  <label for="name">price: </label>
+                  <input type="number" name="price" value="{{ code.price }}" placeholder="Enter price of promo code" required>
+               </div>
+               <div class="desc-field">
+                  <label for="desc">Description: </label>
+                  <input type="text" name="des" placeholder="Description" value="{{ code.des }}" required>
+               </div>          
+            </div>
+            <button class="add-btn" href="#" type="submit">Create</button>
+         </form>
+         
+         <a class="back-btn" href="/view_promo_code/"><span>&#8592;</span> Back</a>
+      </div>
+
+{% endblock content %}        

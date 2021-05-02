@@ -1,0 +1,83 @@
+{% extends "cms/base.html" %}
+      {% block content %}
+       <div id="store">
+         <ul class="special-head">
+            <li><a href="/index/">Home</a></li>
+            <li>Stores</li>
+          </ul>
+         <a class="add-btn" href="/add_store/">&#43; ADD Store</a>
+         <form action="/view_store/" method="POST">
+         	{% csrf_token %}
+            <input type="text" placeholder="Mobile Number" name="mobile" required>  
+            <button type="submit" class="small-btn">Search</button>
+         </form>
+         <div class="table-wrapper">
+            <table class="large-table">
+               <tr>
+                  <th>UID</th>
+                  <th>Username</th>
+                  <th>Full Name</th>
+                  <th>Store Name</th>
+                  <th>Email</th>
+                  <th>Mobile</th>
+                  <th>City</th>
+                  <th>State</th>
+                  <th>Zip code</th>
+                  <th>Address</th>
+                  <th>locality</th>
+                  <th>Category</th>
+                  <th>Image</th>
+                  <th>Image 1</th>
+                  <th>Operation</th>
+               </tr>
+               {% for x in store %}
+               <tr>
+                  <td>{{ x.uid }}</td>
+                  <td>{{ x.user.username }}</td>
+                  <td>{{ x.user.first_name }} {{ x.user.last_name }}</td>
+                  <td>{{ x.store_name }}</td>
+                  <td>{{ x.user.email }}</td>
+                  <td>{{ x.mobile }}</td>
+                  <td>{{ x.city }}</td>
+                  <td>{{ x.state }}</td>
+                  <td>{{ x.zipcode }}</td>
+                  <td>{{ x.address }}</td>
+                  <td>{{ x.locality }}</td>
+                  <td>{{ x.category.name }}</td>
+                  <td><img src="{{ x.image.url }}" alt="img"></td>
+                  <td><img src="{{ x.image1.url }}" alt="img"></td>
+                  <td>
+                     <a class="small-btn" href="/update_store/{{ x.uid }}" style="font-size: 10px; padding: 2px;">Update</a>
+                     <a class="small-btn" href="/view_store_product/{{ x.uid }}" style="font-size: 10px; padding: 2px;">product</a>
+                     <a class="small-btn" href="/delete_store/{{ x.uid }}" style="font-size: 10px; padding: 2px;">Delete</a>
+                  </td>
+               </tr>
+               {% endfor %}
+            </table>
+         </div>
+         {% if store.has_other_pages %}
+        <ul class="pagination">
+          {% if store.has_previous %}
+            <li><a href="?page={{ store.previous_page_number }}">&laquo;</a></li>
+          {% else %}
+            <li class="disabled"><span>&laquo;</span></li>
+          {% endif %}
+          {% for i in store.paginator.page_range %}
+            {% if store.number == i %}
+              <li class="active"><span>{{ i }} <span class="sr-only">(current)</span></span></li>
+            {% else %}
+              <li><a href="?page={{ i }}">{{ i }}</a></li>
+            {% endif %}
+          {% endfor %}
+          {% if store.has_next %}
+            <li><a href="?page={{ store.next_page_number }}">&raquo;</a></li>
+          {% else %}
+            <li class="disabled"><span>&raquo;</span></li>
+          {% endif %}
+        </ul>
+      {% endif %}
+         
+         <a class="back-btn" href="/index/"><span>&#8592;</span> Back</a>
+      </div>
+
+{% endblock content %}            

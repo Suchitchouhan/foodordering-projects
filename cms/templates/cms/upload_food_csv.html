@@ -1,0 +1,36 @@
+{% extends "cms/base.html" %}
+      {% block content %}
+       <div id="store-categories">
+         <ul class="special-head">
+            <li><a href="/index/">Home</a></li>
+            <li>Upload Food Csv</li>
+          </ul>
+         <form action="/upload_food_csv" method="POST" enctype="multipart/form-data" class="add-form">
+         	{% csrf_token %}
+            <div class="inputs-wrapper">
+               <div class="name-field">
+                  <label for="name">Food Csv: </label>
+                  <input type="file" name="file" placeholder="" required>
+               </div>       
+            </div>
+            <div class="options-field">
+                  <label for="category">resturent_name: </label>
+                  <select name="rest_id" class="category" required>
+                     {% for x in data %}
+                     <option value="{{ x.pk }}">{{ x.resturent_name }} - {{ x.uid }}</option>
+                     {% endfor %}
+                  </select>
+
+               </div> 
+            <button class="add-btn" href="#" type="submit">Create</button>
+         </form>
+         
+         <a class="back-btn" href="/index/"><span>&#8592;</span> Back</a>
+      </div>
+      {% if message %}
+            <script type="text/javascript">
+               alert("{{ message }}");
+            </script>
+         {% endif %}
+
+{% endblock content %}        

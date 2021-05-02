@@ -1,0 +1,97 @@
+{% extends "cms/base.html" %}
+      {% block content %}
+
+
+      <div id="user-profile">
+         <ul class="special-head">
+            <li><a href="/index/">Home</a></li>
+            <li><a href="/manage_customer/">Customers</a></li>
+            <li><a href="/single_customer_panel/{{ c_uid }}/">User Profile</a></li>
+            <li>Single Product</li>
+         </ul>
+         {% ifequal type 'food' %}
+         <div class="item-images">
+         	{% for x in image %}
+            <img src="{{ x.image.url }}" alt="img" width="200">
+            {% endfor %}
+         </div>
+
+         <ul class="samosa">
+            <li>
+               <p>Name:</p><span>{{ product.name }}</span>
+            </li>
+            <li>
+               <p>Brand Name:</p><span>{{ product.brandname }}</span>
+            </li>
+            <li>
+               <p>Resturent Name:</p><span>{{ product.resturent.name }}</span>
+            </li>
+            <li>
+               <p>Category:</p><span>{{ product.food_category.name }}</span>
+            </li>
+            <li>
+               <p>Prica:</p><span>{{ product.price }}</span>
+            </li>
+            <li>
+               <p>Description:</p><span>{{ product.des }}</span>
+            </li>
+            <li>
+               <p>Type:</p><span>{{ product.food_type }}</span>
+            </li>
+            <li>
+               <p>highlight:</p><span>{{ product.highlight }}</span>
+            </li>
+            <li>
+               <p>overview:</p><span>{{ product.overview }}</span>
+            </li>
+            <li>
+               <p>gst:</p><span>{{ product.gst }}</span>
+            </li>
+         </ul>
+                  
+         
+      {% else %}
+       <div class="item-images">
+		{% for x in image %}
+            <img src="{{ x.image.url }}" alt="img" width="200">
+            {% endfor %}
+         </div>
+
+         <ul class="samosa">
+             <li>
+               <p>Name:</p><span>{{ product.name }}</span>
+            </li>
+            <li>
+               <p>Brand Name:</p><span>{{ product.brandname }}</span>
+            </li>
+            <li>
+               <p>Store Name:</p><span>{{ product.store.name }}</span>
+            </li>
+            <li>
+               <p>Category:</p><span>{{ product.product_category.name }}</span>
+            </li>
+            <li>
+               <p>Prica:</p><span>{{ product.price }}</span>
+            </li>
+            <li>
+               <p>Description:</p><span>{{ product.des }}</span>
+            </li>
+            <li>
+               <p>highlight:</p><span>{{ product.highlight }}</span>
+            </li>
+            <li>
+               <p>overview:</p><span>{{ product.overview }}</span>
+            </li>
+            <li>
+               <p>gst:</p><span>{{ product.gst }}</span>
+            </li>
+         </ul>
+                  
+         <!-- <a class="back-btn" href="/customer-product"><span>&#8592;</span> Back</a> -->
+      
+      {% endifequal %}
+      <a class="back-btn" href="/single_customer_panel/{{ c_uid }}/"><span>&#8592;</span> Back</a>
+  
+      </div>
+
+{% endblock content %}          

@@ -1,0 +1,24 @@
+{% extends "cms/base.html" %}
+      {% block content %}
+       <div id="store-categories">
+         <ul class="special-head">
+            <li><a href="/index/">Home</a></li>
+            <li><a href="/view_store_spotlight/">Store Spotlight</a></li>
+          </ul>
+         <form action="/add_to_spotlight_store" method="POST" enctype="multipart/form-data" class="add-form">
+         	{% csrf_token %}
+            <div class="inputs-wrapper">
+               {% for x,y in store %}
+               <div class="name-field">
+                  <label for="name">{{ x }} </label>
+                  <input type="checkbox" name="id" value="{{ y }}" required>
+               </div>
+               {% endfor %}         
+            </div>
+            <button class="add-btn" href="#" type="submit">Create</button>
+         </form>
+         
+         <a class="back-btn" href="/view_store_category/"><span>&#8592;</span> Back</a>
+      </div>
+
+{% endblock content %}        

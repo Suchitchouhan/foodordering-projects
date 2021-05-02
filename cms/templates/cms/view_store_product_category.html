@@ -1,0 +1,37 @@
+{% extends "cms/base.html" %}
+      {% block content %}
+      <div id="store-categories">
+         <ul class="special-head">
+            <li><a href="/index/">Home</a></li>
+            <li>Store Product Categories</li>
+          </ul>
+         <a class="add-btn" href="/add_store_product_category/">&#43; ADD Item</a>
+         <div class="table-wrapper">
+            <table class="small-table">
+               <thead>
+                  <tr>
+                     <th>Name</th>
+                     <th>Description</th>
+                     <th>Image</th>
+                     <th>Operation</th>
+                  </tr>
+               </thead>
+               <tbody>
+               	{% for x in des %}
+                  <tr>
+                     <td id="storeName">{{ x.name }}</td>
+                     <td id="storeDesc">{{ x.des }}</td>
+                     <td id="storeImage"><img src="{{ x.image.url }}" alt="img"></td>
+                     <td>
+                        <a class="small-btn" href="/update_store_product_category/{{ x.pk }}" style="font-size: 0.7rem;">Update</a>
+                     </td>
+                  </tr>
+                  {% endfor %}
+               </tbody>
+            </table> 
+         </div>
+
+         <a class="back-btn" href="/index/"><span>&#8592;</span> Back</a>
+      </div>
+
+{% endblock content %}      

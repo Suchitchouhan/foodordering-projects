@@ -1,0 +1,59 @@
+{% extends "cms/base.html" %}
+      {% block content %}
+       <div id="store">
+         <ul class="special-head">
+            <li><a href="/index/">Home</a></li>
+            <li>Delivery Employee</li>
+          </ul>
+         <a class="add-btn" href="/add_delivery_employee/">&#43; ADD Delivery Employee</a>
+         <form action="/delivery_details/" method="POST">
+            {% csrf_token %}
+            <input type="text" placeholder="Mobile Number" name="mobile" required>  
+            <button type="submit" class="small-btn">Search</button>
+         </form>
+         <div class="table-wrapper">
+            <table class="large-table">
+               <tr>
+                  <th>UID</th>
+                  <th>Username</th>
+                  <th>Full Name</th>
+                  <th>Email</th>
+                  <th>Mobile</th>
+                  <th>City</th>
+                  <th>State</th>
+                  <th>Zip code</th>
+                  <th>Address</th>
+                  <th>latitude</th>
+                  <th>longitude</th>
+                  <th>package</th>
+                  <th>Operation</th>
+               </tr>
+               {% for x in employee %}
+               <tr>
+                  <td>{{ x.uid }}</td>
+                  <td>{{ x.user.username }}</td>
+                  <td>{{ x.user.first_name }} {{ x.user.last_name }}</td>
+                  <td>{{ x.user.email }}</td>
+                  <td>{{ x.mobile }}</td>
+                  <td>{{ x.city }}</td>
+                  <td>{{ x.state }}</td>
+                  <td>{{ x.zipcode }}</td>
+                  <td>{{ x.address }}</td>
+                  <td>{{ x.location.x }}</td>
+                  <td>{{ x.location.y }}</td>
+                  <td>{{ x.package }}</td>
+                  <td>
+                     <a class="small-btn" href="/update_delivery_employee/{{ x.uid }}/" style="font-size: 10px; padding: 2px">Update</a>
+                     <a class="small-btn" href="/delivery_assigned/{{ x.uid }}&complete/" style="font-size: 10px; padding: 2px">Complete</a>
+                     <a class="small-btn" href="/delivery_assigned/{{ x.uid }}&pending/" style="font-size: 10px; padding: 2px">pending</a>
+                     <a class="small-btn" href="/delivery_assigned/{{ x.uid }}&cancel/" style="font-size: 10px; padding: 2px">cancel</a>
+                  </td>
+               </tr>
+               {% endfor %}
+            </table>
+         </div>
+         
+         <a class="back-btn" href="/index/"><span>&#8592;</span> Back</a>
+      </div>
+
+{% endblock content %}            

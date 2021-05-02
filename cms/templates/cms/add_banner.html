@@ -1,0 +1,72 @@
+{% extends "cms/base.html" %}
+      {% block content %}
+
+<!-- {% if message %}
+{{ message }}
+{% endif %}
+<form method="post" enctype="multipart/form-data">
+	{% csrf_token %}
+	{% if data %}
+	<select name='uid'>
+		{% for x in data %}
+		<option value="{{ x.uid }}">{{ x.name }}</option>
+		{% endfor %}
+	</select>
+	<input type="file" name="image">
+	{% endif %}
+	<button type='submit'>submit</button>
+
+</form> -->
+
+     <div id="store-categories">
+         <ul class="special-head">
+            <li><a href="/index/">Home</a></li>
+            <li>ADD Social Cause</li>
+          </ul>
+ 		<form action="{% url 'add_banner' %}" method="POST" enctype="multipart/form-data" class="add-form">
+         	{% csrf_token %}
+            <div class="inputs-wrapper">
+                <div class="options-field">
+                  <label for="category">Restaurant: </label>
+                  <select name="uid" class="category" required>
+                  	{% for x in  data %}
+                     <option value="{{ x.uid }}">{{ x.name }}</option>
+                     {% endfor %}
+                  </select>
+
+               </div>
+               <div class="desc-field">
+                  <label for="desc">Description: </label>
+                  <input type="file" name="image" placeholder="Description" required>
+               </div>        
+            </div>
+            <button class="add-btn" href="#" type="submit">Create</button>
+         </form>
+
+
+		<div class="table-wrapper">
+            <table class="small-table">
+               <thead>
+                  <tr>
+                     <th>Resturent</th>
+                     <th>Image</th>
+                     <th>Operation</th>
+                  </tr>
+               </thead>
+               <tbody>
+               	{% for x,y,z in banner %}
+                  <tr>
+                     <td id="storeName">{{ x }}</td>
+                     <td><img src="{{ z }}" alt="img"></td>
+                     <td>
+                        <a class="small-btn" href="/remove_banner/{{ y }}" style="font-size: 0.7rem;">Delete</a>
+                     </td>
+                  </tr>
+                  {% endfor %}
+               </tbody>
+            </table> 
+         </div>
+     </div>
+     
+
+{% endblock content %}               

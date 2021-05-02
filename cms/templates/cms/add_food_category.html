@@ -1,0 +1,36 @@
+{% extends "cms/base.html" %}
+      {% block content %}
+       <div id="store-categories">
+         <ul class="special-head">
+            <li><a href="/index/">Home</a></li>
+            <li><a href="/view_food_category/">Food Categories</a></li>
+            <li>Add Food Category for Restaurant</li>
+          </ul>
+         <form action="/add_food_category/" method="POST" enctype="multipart/form-data" class="add-form">
+         	{% csrf_token %}
+            <div class="inputs-wrapper">
+               <div class="name-field">
+                  <label for="name">Name: </label>
+                  <input type="text" name="name" placeholder="Don't use space please" required>
+               </div>
+               <div class="desc-field">
+                  <label for="desc">Description: </label>
+                  <input type="text" name="des" placeholder="Description" required>
+               </div>
+               <div class="img-field">
+                  <label for="image">Image: </label>
+                  <input type="file" name="image" required>
+               </div>           
+            </div>
+            <button class="add-btn" href="#" type="submit">Create</button>
+         </form>
+         
+         <a class="back-btn" href="/view_food_category/"><span>&#8592;</span> Back</a>
+      </div>
+      {% if message %}
+            <script type="text/javascript">
+               alert("{{ message }}");
+            </script>
+         {% endif %}
+
+{% endblock content %}        

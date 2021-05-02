@@ -1,0 +1,72 @@
+{% extends "cms/base.html" %}
+      {% block content %}
+       <div id="store">
+         <ul class="special-head">
+            <li><a href="/index/">Home</a></li>
+            <li><a href="/view_store/">Store</a></li>
+          </ul>
+         <a class="add-btn" href="/add_store_product/{{ st_uid }}">&#43; ADD Product</a>
+         <form action="/view_store_product/" method="POST">
+         	{% csrf_token %}
+            <input type="text" placeholder="Product Name" name="name" required>  
+            <button type="submit" class="small-btn">Search</button>
+         </form>
+         <div class="table-wrapper">
+            <table class="large-table">
+               <tr>
+                  <th>UID</th>
+                  <th>name</th>
+                  <th>brandname</th>
+                  <th>price</th>
+                  <th>des</th>
+                  <th>highlight</th>
+                  <th>overview</th>
+                  <th>gst</th>
+                  <th>Operation</th>
+               </tr>
+               {% for x in product %}
+               <tr>
+                  <td>{{ x.uid }}</td>
+                  <td>{{ x.name }}</td>
+                  <td>{{ x.brandname }}</td>
+                  <td>{{ x.price }}</td>
+                  <td>{{ x.des }}</td>
+                  <td>{{ x.highlight }}</td>
+                  <td>{{ x.overview }}</td>
+                  <td>{{ x.gst }}</td>
+                  <td>
+                     <a class="small-btn" href="/update_store_product/{{ x.uid }}&{{ st_uid }}/" style="font-size: 0.7rem;">Update</a>
+                     <a class="small-btn" href="/view_product_image/{{ x.uid }}/" style="font-size: 0.7rem;">Image</a>
+                     <a class="small-btn" href="/view_product_specification/{{ x.uid }}/" style="font-size: 0.7rem;">Specification</a>
+                     <a class="small-btn" href="/delete_product/{{ x.uid }}&{{ st_uid }}/" style="font-size: 0.7rem;">Delete</a>
+                  </td>
+               </tr>
+               {% endfor %}
+            </table>
+         </div>
+         {% if product.has_other_pages %}
+        <ul class="pagination" style="background: 'orange'; ">
+          {% if product.has_previous %}
+            <li style="background: 'orange'; "><a href="?page={{ product.previous_page_number }}">prev</a></li>
+          {% else %}
+            <li class="disabled"><span></span></li>
+          {% endif %}
+          {% for i in product.paginator.page_range %}
+            {% if product.number == i %}
+              <li class="active"><span>{{ i }} <span class="sr-only">(current)</span></span></li>
+            {% else %}
+              <li><a href="?page={{ i }}">{{ i }}</a></li>
+            {% endif %}
+          {% endfor %}
+          {% if product.has_next %}
+            <li><a href="?page={{ product.next_page_number }}">&raquo;</a></li>
+          {% else %}
+            <li class="disabled"><span></span></li>
+          {% endif %}
+        </ul>
+      {% endif %}
+         
+         <a class="back-btn" href="/view_store/"><span>&#8592;</span> Back</a>
+      </div>
+
+{% endblock content %}            

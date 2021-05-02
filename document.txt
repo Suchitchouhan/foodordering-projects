@@ -1,0 +1,298 @@
+POST  /api/signup/ 
+data - >
+username=suchit
+firstname=suchit
+lastname=chouhan
+email=xyz@mail.com
+password=xrock
+mobile=9717680719
+billing_city=noida
+billing_state=up
+billing_zipcode=123456
+billing_address=aasqads
+image=file.jpg
+
+---------------------
+POST /api/login/
+data - >
+username=hulk
+password=xrock
+
+------------------------------
+GET /api/get_store_category/
+--------------------------------
+GET /api/get_product_category/
+---------------------------------
+GET /api/get_resturent_category/
+-------------------------------
+GET /api/get_food_category/
+------------------------------------
+GET /api/get_product_by_category/{{ name }}/
+data -> 
+name=category name
+----------------------------------------------------
+GET /api/get_product_by_category_in_city/{{ name }}/
+----------------------------------------------------
+GET /api/detail_product_view/{{ uid }}/
+uid=product uid
+----------------------------------------------------
+GET /api/get_food_by_category/{{ name }}/
+name=categroy name
+--------------------------------------------------
+GET /api/get_food_by_category_in_city/{{ name }}/
+name=category name
+----------------------------------------------------
+GET /api/detail_food_view/{{ uid }}/
+uid =food uid
+------------------------------------------------------
+GET /api/store_list/ 
+------------------------------------------------------
+GET /api/store_list_in_city/
+-------------------------------------------------------
+GET /api/resturent_list/
+-----------------------------------------------
+GET /api/resturent_list_in_city/
+-----------------------------------------------
+GET /api/resturent_foods/{{ uid }}/
+uid=resturent uid
+-----------------------------------------------
+GET /api/store_products/{{ uid }}/
+uid=store uid
+--------------------------------------------
+GET /api/add_to_cart/{{ uid }}/
+uid=product or food uid
+--------------------------------------
+GET /api/remove_to_cart/{{ uid }}/
+uid=product or food uid
+-------------------------------------------
+POST /api/update_cart/
+uid=product or food uid
+quantity=45
+----------------------------------------------
+
+
+GET /api/all_cart/
+
+
+----------------------------------------
+POST /api/order_placed_by_address/
+city=noida
+state=up
+zipcode=666666
+address=kskjsdf
+---------------------------------------------
+-------------------------------------------------
+GET /api/previous_order_complete/
+---------------------------------------
+GET /api/previous_order_pending/
+
+---------------------------------------
+GET /api/items_in_order/{{ uid }}/
+uid=order id
+
+
+
+====================================
+GET /api/user_profile/
+
+====================================
+GET /api/get_restaurant_by_cat/{{ catId }}
+catId = {{ pk }}category
+
+===================================
+GET /api/get_store_by_cat/{{ catId }}
+catId = {{ pk }}category
+
+===================================
+GET /api/get_resturent_by_food_cat/{{ cat }}
+cat=category name
+
+
+==========================================
+GET /api/get_all_store_product
+
+
+========================================
+GET /api/get_all_food
+
+==========================================
+
+POST /api/get_veg_noveg
+
+food_type={{ Veg }} or {{ Nveg }}
+
+======================================
+
+POST /api/promo_code_price
+
+promocode=code
+
+========================================
+
+POST /api/search_food/
+
+name=food name
+
+=======================================
+
+POST /api/search_product/
+name=product_name
+
+========================================
+
+POST /api/add_rating
+uid=store uid
+rate=number
+===================================
+
+
+=============================
+POST /api/create_order
+promo_code=promo code
+
+=============================
+POST /api/order_placed_by_address
+shipping_city=
+shipping_state=
+shipping_zipcode=
+shipping_address=
+longitude=
+latitude=
+promo_code=
+order_id=
+
+=====================================
+POST /api/order_placed_by_address_cod
+shipping_city=
+shipping_state=
+shipping_zipcode=
+shipping_address=
+longitude=
+latitude=
+promo_code=
+order_id=
+
+
+=====================================
+GET /api/resrturent_banner
+
+
+====================================
+GET /api/donate_for_cause
+
+================================
+GET /api/resturent_list_by_zipcode/{{ zipcode }}
+
+
+==============================
+POST /api/add_shipping_address
+
+
+city=
+state=
+zipcode=
+address=
+longitude=
+latitude=
+
+====================================
+GET /api/view_shipping_address
+
+====================================
+
+GET /api/delete_shipping_address/{{ pk }}
+
+==================================
+POST /api/resturent_rating
+
+uid=resturnent uid
+
+
+======================================
+GET /api/promo_code_list
+
+
+=-=====================================
+GET /api/list_special_foog_category
+
+
+=========================================
+GET /api/list_special_foog_category_by_name/{{ name }}
+
+
+
+============================================
+GET /api//list_speacial_dish
+
+
+=========================================
+GET /api/list_speacial_dish_food/{{ name }}
+
+
+
+============================================
+GET /api/view_resturent_spotlight
+
+
+============================================
+GET /api/view_store_spotlight
+
+============================================
+GET /api/view_food_spotlight
+
+============================================
+GET /api/view_product_spotlight
+
+============================================
+GET /api/all_name_special_resturent
+
+============================================
+GET /api/special_resturent_name/{{ name }}
+
+
+=========================================================
+=========================================================
+
+
+GET /api/delivery/see_pending_delivery
+
+----------------------------------------------
+GET /api/delivery/see_complete_delivery
+
+--------------------------------------------
+GET /api/delivery/see_cancel_delivery
+
+
+
+------------------------------------------------
+POST /api/delivery/complete_order/{{ uid }}/
+uid=order id
+ otp=1122asf
+
+-------------------------------------------------
+POST /api/delivery/cancel_order
+
+uid=asda
+otp=23223
+
+
+--------------------------------------------
+GET /api/delivery/items_in_order{{ uid }}
+uid=order id
+
+
+=====================================================
+=====================================================
+
+GET /api/vendor/cancel_order/<str:order_uid>&<str:item_uid>
+
+
+order_uid=order id
+item_uid = item id 
+
+----------------------------------------------------
+GET /api/vendor/orders_for_delivery/<str:statusO>/
+statusO=[pending,cancel,complete]
+
+
+

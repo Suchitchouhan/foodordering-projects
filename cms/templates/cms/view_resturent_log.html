@@ -1,0 +1,31 @@
+{% extends "cms/base.html" %}
+      {% block content %}
+       <div id="store">
+         <ul class="special-head">
+            <li><a href="/index/">Home</a></li>
+            <li><a href="">Restaurant log</a></li>
+          </ul>
+<!--          <a class="add-btn" href="/view_resturent_log/{{ st_uid }}">&#43; ADD Product</a>
+ -->         <form action="/view_resturent_log" method="POST">
+         	{% csrf_token %}
+            <input type="text" placeholder="Enter Restaurant UID" name="st_uid" required>  
+            <button type="submit" class="small-btn">Search</button>
+         </form>
+         {% if store %}
+         <div class="table-wrapper">
+            <table class="large-table">
+               <tr>
+                  <th>username</th>
+                  <th>password</th>
+               </tr>
+               <tr>
+                  <td>{{ store.username }}</td>
+                  <td>{{ store.password }}</td>
+               </tr>
+            </table>
+         </div>
+         {% endif %}
+         <a class="back-btn" href="/index/"><span>&#8592;</span> Back</a>
+      </div>
+
+{% endblock content %}            

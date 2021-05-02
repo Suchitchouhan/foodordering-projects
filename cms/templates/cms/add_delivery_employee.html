@@ -1,0 +1,73 @@
+{% extends "cms/base.html" %}
+      {% block content %}
+       <div id="store-categories">
+         <ul class="special-head">
+            <li><a href="/index/">Home</a></li>
+            <li><a href="/delivery_details/">Delivery Employees</a></li>
+            <li>Add Delivery Employees</li>
+          </ul>
+         <form action="/add_delivery_employee/" method="POST" enctype="multipart/form-data" class="add-form">
+         	{% csrf_token %}
+            <div class="inputs-wrapper">
+               <div class="name-field">
+                  <label for="name">username: </label>
+                  <input type="text" name="username" placeholder="Don't use space please in username" required>
+               </div> 
+               <div class="name-field">
+                  <label for="name">first_name: </label>
+                  <input type="text" name="first_name" placeholder="First Name" required>
+               </div> 
+               <div class="name-field">
+                  <label for="name">last_name: </label>
+                  <input type="text" name="last_name" placeholder="last Name" required>
+               </div>         
+
+               <div class="name-field">
+                  <label for="name">email: </label>
+                  <input type="email" name="email" placeholder="Email" required>
+               </div> 
+
+               <div class="name-field">
+                  <label for="name">password: </label>
+                  <input type="text" name="password" placeholder="Password" required>
+               </div> 
+
+               <div class="name-field">
+                  <label for="name">mobile: </label>
+                  <input type="text" name="mobile" placeholder="mobile" required>
+               </div> 
+
+               <div class="name-field">
+                  <label for="name">city: </label>
+                  <input type="text" name="city" placeholder="city" required>
+               </div> 
+                <div class="name-field">
+                  <label for="name">state: </label>
+                  <input type="text" name="state" placeholder="state" required>
+               </div> 
+
+                <div class="name-field">
+                  <label for="name">zipcode: </label>
+                  <input type="text" name="zipcode" placeholder="zipcode" required>
+               </div> 
+
+                <div class="name-field">
+                  <label for="name">address: </label>
+                  <input type="text" name="address" placeholder="address" required>
+               </div> 
+
+                <div class="name-field">
+                  <label for="name">package: </label>
+                  <input type="number" name="package" placeholder="package" required>
+               </div> 
+
+
+            </div>
+            <button class="add-btn" href="#" type="submit">Create</button>
+         </form>
+         
+         <a class="back-btn" href="/delivery_details/"><span>&#8592;</span> Back</a>
+      </div>
+      
+
+{% endblock content %}        

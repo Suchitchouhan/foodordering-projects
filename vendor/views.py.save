@@ -1,0 +1,534 @@
+
+from django.shortcuts import render
+from django.shortcuts import render
+from rest_framework.views import APIView
+from .models import *
+import json
+from rest_framework.status import (
+    HTTP_400_BAD_REQUEST,
+    HTTP_404_NOT_FOUND,
+    HTTP_200_OK
+)
+from rest_framework.authtoken.models import Token
+from rest_framework.permissions import IsAuthenticated
+from django.contrib.auth import authenticate
+from django.views.decorators.csrf import csrf_exempt
+from rest_framework.decorators import api_view, permission_classes
+from rest_framework.permissions import AllowAny
+from django.http import HttpResponse
+from rest_framework.response import Response
+from django.contrib.auth.models import User
+import math, random
+from django.core.mail import send_mail
+from django.contrib.auth.decorators import login_required
+from django.utils.crypto import get_random_string
+from cms.models import *
+from foodordering.models import *
+from delivery.models import *
+
+# Create your views here.
+def rest_rating(uid):
+	res=resturent.objects.get(uid=uid)
+	rating=rating_for_restaurant.objects.filter(for_restaurant=res).count()
+	data=[]
+	for y in [1,2,3,4,5]:
+		if rating_for_restaurant.objects.filter(for_restaurant=res,rate=y).exists():
+			percent=0
+			rating_star=rating_for_restaurant.objects.filter(for_restaurant=res,rate=y).count()
+			percent=((rating/100)*rating_star)
+			data.append(percent)
+		else:
+			data.append(3.2)
+	return data	
+
+def st_rating(uid):
+	res=store.objects.get(uid=uid)
+	rating=rating_for_store.objects.filter(for_store=res).count()
+	data=[]
+	for y in [1,2,3,4,5]:
+		if rating_for_store.objects.filter(for_store=res,rate=y).exists():
+			percent=0
+			rating_star=rating_for_store.objects.filter(for_store=res,rate=y).count()
+			percent=((rating/100)*rating_star)
+			data.append(percent)
+		else:
+			data.append(3.2)
+	return data
+
+
+def custom_food_price(food):
+	data=[]
+	if food_sub_cat.objects.filter(for_food=food).exists():
+		foo=food_sub_cat.objects.filter(for_food=food)
+		for x in foo:
+			data.append(x.as_dict())
+		return data
+	else:
+		return data		
+
+
+
+@csrf_exempt
+@api_view(["POST"])
+@permission_classes((AllowAny,))
+def login(request):
+    password = request.data.get("password")
+    username= request.data.get("username")
+    if username is None or password is None:
+        return Response({'error': 'Please provide both username and password'},
+                        status=HTTP_400_BAD_REQUEST)
+    user = authenticate(username=username, password=password)
+    if not user:
+        returnMessage = {'error': 'Invalid Credentials'}
+        return HttpResponse(
+        json.dumps(returnMessage),
+        content_type = 'application/javascript; charset=utf8'
+    )
+    token, _ = Token.objects.get_or_create(user=user)
+    returnToken = {'token':token.key}
+    return HttpResponse(
+        json.dumps(returnToken),
+        content_type = 'application/javascript; charset=utf8'
+    )
+
+
+@csrf_exempt
+@api_view(["GET"])
+@permission_classes((IsAuthenticated,))
+def orders_for_delivery(request,statusO):
+	data={}
+	if store.objects.filter(user=request.user).exists():
+		st=store.objects.get(user=request.user)
+		stp=store_product.objects.filter(store=st)
+		data={}
+		for x in stp:
+			if order_items.objects.filter(item_uid=x.uid,item_type="product",status=statusO).exists():
+				oti=order_items.objects.filter(item_uid=x.uid,item_type="product",status=statusO)
+				for y in oti:
+					demp=delivery_assign.objects.get(order=y.order)
+					print(y.order.uid)
+
+					data={"item_uid":y.item_uid,'product_name':x.name,'price':x.price,'quantity':y.quantity,'customer':y.order.user.username,'firstname':y.order.user.first_name,'last_name':y.order.user.last_name,'delivery_username':demp.employee.user.username,'firstname':demp.employee.user.first_name,'last_name':demp.employee.user.last_name,'email':demp.employee.user.email,'mobile':demp.employee.mobile}
+					#context['product']=data
+		return Response({'delivery': [data,]},status=HTTP_200_OK)			
+	elif resturent.objects.filter(user=request.user).exists():
+		st=resturent.objects.get(user=request.user)
+		stp=food.objects.filter(resturent=st)
+		context={}
+		for x in stp:
+			if order_items.objects.filter(item_uid=x.uid,item_type="food",status=statusO).exists():
+				oti=order_items.objects.filter(item_uid=x.uid,item_type="food",status=statusO)
+				for y in oti:
+					demp=delivery_assign.objects.get(order=y.order)
+
+					data={"item_uid":y.item_uid,'food__name':x.name,'price':x.price,'quantity':y.quantity,'customer':y.order.user.username,'firstname':y.order.user.first_name,'last_name':y.order.user.last_name,'delivery_username':demp.employee.user.username,'firstname':demp.employee.user.first_name,'last_name':demp.employee.user.last_name,'email':demp.employee.user.email,'mobile':demp.employee.mobile}
+					#context['food']=data
+		return Response({'delivery': [data,]},status=HTTP_200_OK)
+	else:
+		return Response({'delivery': "not exists"},status=HTTP_200_OK)		
+
+
+@csrf_exempt
+@api_view(["GET"])
+@permission_classes((IsAuthenticated,))
+def cancel_order(request,order_uid):
+	if store.objects.filter(user=request.user).exists():
+		st=store.objects.get(user=request.user)
+		if order.objects.filter(uid=order_uid).exists():
+			o=order.objects.get(uid=order_uid)
+			if order_items.objects.filter(order=o).exists():
+				otm=order_items.objects.get(order=o)
+				otm.status="cancel"
+				otm.save()
+		return Response({'delivery': "item has been cancel"},status=HTTP_200_OK)		
+	elif resturent.objects.filter(user=request.user).exists():
+		st=resturent.objects.get(user=request.user)
+		if order.objects.filter(uid=order_uid).exists():
+			o=order.objects.get(uid=order_uid)
+			if order_items.objects.filter(order=o):
+				otm=order_items.objects.filter(order=o)
+				for x in otm:
+					x.status="cancel"
+					x.save()
+		return Response({'delivery': "item has been cancel"},status=HTTP_200_OK)		
+
+
+def check_blank_or_null(data):
+    status = True
+    for x in data:
+        if x == "" and x == None:
+            status = True
+        else:
+            pass
+    return status 
+
+
+@csrf_exempt
+@api_view(["POST"])
+@permission_classes((IsAuthenticated,))
+def add_product(request):
+	context={}
+	name=request.data.get("name")
+	brandname=request.data.get("brandname")
+	cat_id=request.data.get("cat_id")
+	price=request.data.get("price")
+	des1=request.data.get("des1")
+	highlight=request.data.get("highlight")
+	overview=request.data.get("overview")
+	gst=request.data.get("gst")
+	specification=request.data.getlist("specification")
+	des=request.data.getlist("des")
+	# image=request.data.getlist("image")
+	if store.objects.filter(user=request.user).exists() and len(specification)>0 and len(des)>0  and len(specification)==len(des) and check_blank_or_null([name,brandname,cat_id,price,des,highlight,overview,gst]) == True:
+		stp=store_product.objects.create()
+		stp.uid=get_random_string(8)
+		stp.name=name
+		stp.brandname=brandname
+		stp.store=store.objects.get(user=request.user)
+		stp.product_category=store_product_category.objects.get(pk=cat_id)
+		stp.price=price
+		stp.des=des1
+		stp.highlight=highlight
+		stp.overview=overview
+		stp.gst=gst
+		stp.save()
+		for x,y in zip(specification,des):
+			ps=product_specification.objects.create()
+			ps.product=stp
+			ps.specification=x
+			ps.des=y
+			ps.save()
+		# for x in image:
+		# 	pi=product_image.objects.create(product=stp,image=x)
+		# 	pi.save()
+
+		context['message']="product has been successfully added"		
+	else:
+		context['message']="something is not right"
+	return Response(context,status=HTTP_200_OK)	
+
+@csrf_exempt
+@api_view(["POST"])
+@permission_classes((IsAuthenticated,))
+def add_food(request):
+	context={}
+	name=request.data.get("name")
+	brandname=request.data.get("brandname")
+	cat_id=request.data.get("cat_id")
+	price=request.data.get("price")
+	des1=request.data.get("des1")
+	highlight=request.data.get("highlight")
+	overview=request.data.get("overview")
+	gst=request.data.get("gst")
+	food_type=request.data.get("food_type")
+	sub_cat_name=request.data.getlist("sub_cat_name")
+	sub_cat_price=request.data.getlist("sub_cat_price")
+	extra_item_name=request.data.getlist("extra_item_name")
+	extra_item_price=request.data.getlist("extra_item_price")
+	specification=request.data.getlist("specification")
+	des=request.data.getlist("des")
+	# image=request.data.getlist("image")
+	if food_type in ['Veg','Nveg'] and food_category.objects.filter(pk=cat_id).exists() and len(sub_cat_name)==len(sub_cat_price) and len(extra_item_price)==len(extra_item_name) and resturent.objects.filter(user=request.user).exists() and len(specification)>0 and len(des)>0 and len(specification)==len(des):
+		rt=resturent.objects.get(user=request.user)
+		f=food.objects.create()
+		f.uid=get_random_string(8)
+		f.name=name
+		f.brandname=brandname
+		f.resturent=rt
+		f.food_category=food_category.objects.get(pk=cat_id)
+		f.price=price
+		f.des=des1
+		f.highlight=highlight
+		f.overview=overview
+		f.gst=gst
+		f.food_type=food_type
+		f.save()
+		for x,y in zip(sub_cat_name,sub_cat_price):
+			sbc=food_sub_cat.objects.create()
+			sbc.for_food=f
+			sbc.cat_name=x
+			sbc.price=y
+			sbc.save()
+		for x,y in zip(extra_item_name,extra_item_price):
+			fxi=food_extra_items.objects.create()
+			fxi.for_food=f
+			fxi.item_name=x
+			fxi.price=y
+			fxi.save()
+		for x,y in zip(specification,specification):
+			fs=food_specification.objects.create()
+			fs.food=f
+			fs.specification=x
+			fs.des=y
+			fs.save()
+		# for x in image:
+		# 	fi=food_image.objects.create()
+		# 	fi.food=f
+		# 	fi.image=x
+		# 	fi.save()
+		context['message']="food has been successfully added"
+	else:
+		context['message']="something is not right"
+	return Response(context,status=HTTP_200_OK)				
+
+
+
+@csrf_exempt
+@api_view(["GET"])
+@permission_classes((AllowAny,))
+def get_product_category(request):
+	store_cat=store_product_category.objects.all()
+	data=[]
+	for x in store_cat:
+		data.append(x.as_dict())
+	return HttpResponse(json.dumps({"data":data}), content_type='application/json')
+
+
+csrf_exempt
+@api_view(["GET"])
+@permission_classes((AllowAny,))
+def get_food_category(request):
+	store_cat=food_category.objects.all()
+	data=[]
+	for x in store_cat:
+		data.append(x.as_dict())
+	return HttpResponse(json.dumps({"data":data}), content_type='application/json')
+
+
+
+@csrf_exempt
+@api_view(["POST"])
+@permission_classes((IsAuthenticated,))
+def add_product_category(request):
+	context={}
+	name=request.data.get("name")
+	des=request.data.get("des")
+#	image=request.data.get('image')
+	image=request.FILES['image']
+
+	if store.objects.filter(user=request.user).exists() and name!=None and name!="" and des!=None and des!="" and image!="" and image!=None:
+		if store_product_category.objects.filter(name=name).exists():
+			context['message']="its already exists"
+		else:
+			store=store_product_category.objects.create()
+			store.name=name
+			store.des=des
+			store.image=image
+			store.save()
+			context['message']="store category successfully addd"
+	else:
+		context['message']="all Filled must be filled"	
+	return Response(context,status=HTTP_200_OK)	
+
+
+
+@csrf_exempt
+@api_view(["POST"])
+@permission_classes((IsAuthenticated,))
+def add_food_category(request):
+	context={}
+	name=request.data.get("name")
+	des=request.data.get("des")
+#	image=request.data.get('image')
+	image=request.FILES['image']
+
+	if resturent.objects.filter(user=request.user).exists() and name!=None and name!="" and des!=None and des!="" and image!="" and image!=None:
+		if food_category.objects.filter(name=name).exists():
+			context['message']="its already exists"
+		else:
+			store=food_category.objects.create()
+			store.name=name
+			store.des=des
+			store.image=image
+			store.save()
+			context['message']="store category successfully addd"
+	else:
+		context['message']="all Filled must be filled"	
+	return Response(context,status=HTTP_200_OK)	
+
+
+
+@csrf_exempt
+@api_view(['GET'])
+@permission_classes((AllowAny,))
+def get_all_store_product(request):
+	context = {}
+	dataL= []
+	storeO=store.objects.get(user=request)
+	# if store_product.objects.all().exists():
+	store_productO = store_product.objects.filter(store=storeO)
+	for x in store_productO:
+		stp=store_product.objects.get(uid=x.uid)
+		tmp = {}
+		tmp['product'] = stp.as_dict()
+		image=[]
+		for y in product_image.objects.filter(product=stp):
+			image.append(y.image.url)
+		tmp['image']=image
+		specification=[]
+		des=[]
+		for y in product_specification.objects.filter(product=stp):
+			specification.append(y.specification)
+			des.append(y.des)
+		tmp['specification']=specification
+		tmp['des']=des
+		dataL.append(tmp)
+	if len(dataL) > 0:
+		context['data'] = dataL
+	else:
+		context['data'] = 'no_records'
+	return HttpResponse(json.dumps(context), content_type='application/json')
+
+
+@csrf_exempt
+@api_view(['GET'])
+@permission_classes((IsAuthenticated,))
+def get_all_food(request):
+	context = {}
+	dataL = []
+	resturentO=resturent.objects.get(user=request.user)
+	foodO = food.objects.filter(resturent=resturentO)
+	for x in foodO:
+		stp=food.objects.get(uid=x.uid)
+		tmp = {}
+		tmp['food'] = x.as_dict()
+		image=[]
+		for y in food_image.objects.filter(food=stp):
+			image.append(y.image.url)
+		tmp['image']=image
+		specification=[]
+		des=[]
+		for y in food_specification.objects.filter(food=stp):
+			specification.append(y.specification)
+			des.append(y.des)
+		tmp['specification']=specification
+		tmp['des']=des
+		tmp['custom_food_price']=custom_food_price(stp)
+		dataL.append(tmp)
+	if len(dataL) > 0:
+		context['data'] = dataL
+	else:
+		context['data'] = 'no records found'
+	return HttpResponse(json.dumps(context), content_type='application/json')
+
+
+
+@csrf_exempt
+@api_view(['GET'])
+@permission_classes((IsAuthenticated,))
+def change_opening_status(request):
+	context={}
+	if store.objects.filter(user=request.user,opening="open").exists():
+		st=store.objects.get(user=request.user)
+		st.opening="close"
+		st.save()
+		context['message']="Store has been closed"
+	elif store.objects.filter(user=request.user,opening="close").exists():
+		st=store.objects.get(user=request.user)
+		st.opening="open"
+		st.save()
+		context['message']="Store has been open"		
+	elif resturent.objects.filter(user=request.user,opening="close").exists():
+		st=resturent.objects.get(user=request.user)
+		st.opening="open"
+		st.save()
+		context['message']="Restaurant has been open"
+	elif resturent.objects.filter(user=request.user,opening="open").exists():
+		st=resturent.objects.get(user=request.user)
+		st.opening="close"
+		st.save()			
+		context['message']="Restaurant has been close"
+	else:
+		context['message']="Sorry not Authorized"
+	return HttpResponse(json.dumps(context), content_type='application/json')
+	
+
+
+@csrf_exempt
+@api_view(['POST'])
+@permission_classes((IsAuthenticated,))
+def update_store(request):
+	context={}
+	store_name=request.data.get("store_name")
+	mobile=request.data.get("mobile")
+	city=request.data.get("city")
+	state=request.data.get("state")
+	zipcode=request.data.get("zipcode")
+	address=request.data.get("address")
+	locality=request.data.get("locality")
+	cat_id=request.data.get("cat_id")
+	image=request.FILES['image']
+	image1=request.FILES['image1']
+	if check_blank_or_null([image1,image,store_name,mobile,city,state,zipcode,address,locality,cat_id]) == True and store_category.objects.filter(pk=cat_id).exists() and store.objects.filter(user=request.user).exists():
+		st=store.objects.get(user=request.user)
+		st.store_name=store_name
+		st.mobile=mobile
+		st.city=city
+		st.state=state
+		st.zipcode=zipcode
+		st.address=address
+		st.locality=locality
+		st.category=store_category.objects.get(pk=cat_id)
+		st.image=image
+		st.image1=image1
+		st.save()
+		context['message']="successfully Updated"
+	else:
+		context['message']="All field must be filled"	
+	return HttpResponse(json.dumps(context), content_type='application/json')
+	
+
+@csrf_exempt
+@api_view(['GET'])
+@permission_classes((IsAuthenticated,))
+def get_store_details(request):
+	context={}
+	context['store']=store.objects.get(user=request.user).as_dict()
+	return HttpResponse(json.dumps(context), content_type='application/json')
+	
+
+@csrf_exempt
+@api_view(['POST'])
+@permission_classes((IsAuthenticated,))
+def update_resturent(request):
+	context={}
+	resturent_name=request.data.get("resturent_name")
+	mobile=request.data.get("mobile")
+	city=request.data.get("city")
+	state=request.data.get("state")
+	zipcode=request.data.get("zipcode")
+	address=request.data.get("address")
+	locality=request.data.get("locality")
+	cat_id=request.data.get("cat_id")
+	average_price=request.data.get("average_price")
+	image=request.FILES['image']
+	image1=request.FILES['image1']
+	if check_blank_or_null([resturent_name,mobile,city,state,zipcode,address,locality,cat_id,average_price,image,image1]) == True and resturent_category.objects.filter(pk=cat_id).exists() and resturent.objects.filter(user=request.user).exists():
+		st=resturent.objects.get(user=request.user)
+		st.resturent_name=resturent_name
+		st.mobile=mobile
+		st.city=city
+		st.state=state
+		st.zipcode=zipcode
+		st.address=address
+		st.locality=locality
+		st.category=resturent_category.objects.get(pk=cat_id)
+		st.average_price=average_price
+		st.image=image
+		st.image1=image1
+		st.save()
+		context['message']="successfully Updated"
+	else:
+		context['message']="All field must be filled"	
+	return HttpResponse(json.dumps(context), content_type='application/json')
+	
+@csrf_exempt
+@api_view(['GET'])
+@permission_classes((IsAuthenticated,))
+def get_resturent_details(request):
+	context={}
+	context['resturent']=resturent.objects.get(user=request.user).as_dict()
+	return HttpResponse(json.dumps(context), content_type='application/json')
+	
+
+

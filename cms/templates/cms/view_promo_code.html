@@ -1,0 +1,38 @@
+{% extends "cms/base.html" %}
+      {% block content %}
+      <div id="store-categories">
+         <ul class="special-head">
+            <li><a href="/index/">Home</a></li>
+            <li> Promo Code</li>
+          </ul>
+         <a class="add-btn" href="/add_promo_code/">&#43; ADD Item</a>
+         <div class="table-wrapper">
+            <table class="small-table">
+               <thead>
+                  <tr>
+                     <th>Promo Code </th>
+                     <th>Price</th>
+                     <th>Description</th>
+                     <th>Operation</th>
+                  </tr>
+               </thead>
+               <tbody>
+                  {% for x in promo_code %}
+                  <tr>
+                     <td>{{ x.code }}</td>
+                     <td>{{ x.price }}</td>
+                     <td>{{ x.des }}</td>
+                     <td>
+                        <a class="small-btn" href="/update_promo_code/{{ x.pk }}/" style="font-size: 0.7rem;">Update</a>
+                        <a class="small-btn" href="/delete_promo_code/{{ x.pk }}/" style="font-size: 0.7rem;">Delete</a>
+                     </td>
+                  </tr>
+                  {% endfor %}
+               </tbody>
+            </table> 
+         </div>
+
+         <a class="back-btn" href="/index/"><span>&#8592;</span> Back</a>
+      </div>
+
+{% endblock content %}      

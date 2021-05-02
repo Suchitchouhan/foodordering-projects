@@ -1,0 +1,49 @@
+ {% extends "cms/base.html" %}
+      {% block content %}
+      <div id="customer-product">
+         <ul class="special-head">
+            <li><a href="/index/">Home</a></li>
+            <li><a href="/manage_customer/">Customers</a></li>
+            <li><a href="/single_customer_panel/{{ c_uid }}/">User Profile</a></li>
+            <li>Product</li>
+         </ul>
+         <div class="table-wrapper">
+            <table class="large-table">
+               <tr>
+                  <th>Name</th>
+                  <th>Brand Name</th>
+                  <th>Store Name</th>
+                  <th>Category</th>
+                  <th>Price</th>
+                  <th>Description</th>
+                  <th>Item type</th>
+                  <th>Operations</th>
+               </tr>
+               {% for a,b,c,d,e,f,g,h,i in item %}
+               <tr>
+                  <td><a href="/single_product_for_cms/{{ c_uid }}&{{ a }}/">{{ b }}</a></td>
+                  <td>{{ c }}</td>
+                  <td>{{ d }}</td>
+                  <td>{{ e }}</td>
+                  <td>{{ f }}</td>
+                  <td>{{ g }}</td>
+                  <td>{{ h }}</td>
+                  <td>
+                     <form action="/update_cart/{{ c_uid }}&{{ a }}/" method="POST">
+                        {% csrf_token %}
+                        <label for="">Quantity: </label>
+                        <input type="number" value="{{ i }}" name="quantity" id="">
+                        <button class="small-btn" style="font-size: 11px;">Update</button>
+                     </form>
+                  </td>
+               </tr>
+               {% endfor %}
+            </table>
+         </div>
+         <a class="back-btn" href="/place_order_on_different_address/{{ c_uid }}/"><span></span> Order Placed</a>
+         
+         <a class="back-btn" href="/single_customer_panel/{{ c_uid }}/"><span>&#8592;</span> Back</a>
+         <a class="back-btn" href="/index/"><span>&#8592;</span> Panel</a>
+      </div>
+
+{% endblock content %}   

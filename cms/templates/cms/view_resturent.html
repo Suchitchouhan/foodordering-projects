@@ -1,0 +1,72 @@
+{% extends "cms/base.html" %}
+      {% block content %}
+       <div id="store">
+         <ul class="special-head">
+            <li><a href="/index/">Home</a></li>
+            <li>Resraurant</li>
+          </ul>
+         <a class="add-btn" href="/add_resturent/">&#43; ADD Restaurant</a>
+         <form action="/view_resturent/" method="POST">
+         	{% csrf_token %}
+            <input type="text" placeholder="Mobile Number" name="mobile" required>  
+            <button type="submit" class="small-btn">Search</button>
+         </form>
+         <div class="table-wrapper">
+            <table class="large-table">
+               <tr>
+                  <th>UID</th>
+                  <th>Username</th>
+                  <th>Full Name</th>
+                  <th>Restaurant Name</th>
+                  <th>Email</th>
+                  <th>Mobile</th>
+                  <th>City</th>
+                  <th>State</th>
+                  <th>Zip code</th>
+                  <th>Address</th>
+                  <th>locality</th>
+                  <th>Category</th>
+                  <th>Average Price</th>
+                  <th>Image</th>
+                  <th>Image 1</th>
+                  <th>opening</th>
+                  <th>closing</th>
+                  <th>Operation</th>
+               </tr>
+               {% for x in resturent %}
+               <tr>
+                  <td>{{ x.uid }}</td>
+                  <td>{{ x.user.username }}</td>
+                  <td>{{ x.user.first_name }} {{ x.user.last_name }}</td>
+                  <td>{{ x.resturent_name }}</td>
+                  <td>{{ x.user.email }}</td>
+                  <td>{{ x.mobile }}</td>
+                  <td>{{ x.city }}</td>
+                  <td>{{ x.state }}</td>
+                  <td>{{ x.zipcode }}</td>
+                  <td>{{ x.address }}</td>
+                  <td>{{ x.locality }}</td>
+                  <td>{{ x.category.name }}</td>
+                  <td>{{ x.average_price }}</td>
+                  <td><img src="{{ x.image.url }}" alt="img"></td>
+                  <td><img src="{{ x.image1.url }}" alt="img"></td>
+                  <td>{{ x.opening }}</td>
+                  <td>{{ x.closing }}</td>
+                  <td>
+                     <a class="small-btn" href="/update_resturent/{{ x.uid }}" style="font-size: 8px; padding: 3px 4px">Update</a>
+                     <a class="small-btn" href="/view_food/{{ x.uid }}/" style="font-size: 8px; padding: 3px 4px">Food</a>
+                     <a class="small-btn" href="/delete_resturent/{{ x.uid }}/" style="font-size:  8px; padding: 3px 4px">Delete</a>
+                  </td>
+               </tr>
+               {% endfor %}
+            </table>
+         </div>
+         
+         <a class="back-btn" href="/index/"><span>&#8592;</span> Back</a>
+      </div>
+
+{% endblock content %}            
+
+
+
+

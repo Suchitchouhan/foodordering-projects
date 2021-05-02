@@ -1,0 +1,31 @@
+{% extends "cms/base.html" %}
+      {% block content %}
+      
+      <div id="default">
+      	<div class="blabla">
+      		<h1 class="title">Welcome <span>{{ username }}</span></h1>
+         	<h4>Hope you are doing well </h4>
+      	</div>
+      	 
+         <div class="card-wrapper">
+	         <div class="card">
+	         	<h2>Total orders</h2>
+	         	<h5>{{ total_order }}</h5>
+	         </div>
+	         <div class="card">
+	         	<h2>Total customers</h2>
+	         	<h5>{{ total_customer }}</h5>
+	         </div>
+
+	         
+         </div>
+
+         <div class="owl-carousel" style="max-width: 800px; margin: auto; margin-top: 20px">
+			  <a class="carousel-inner c1" href="/view_resturent/"><span>Resturants</span></a>
+			  <a class="carousel-inner c2" href="/view_store/"><span>Stores</span></a>
+		</div>
+
+      </div> 
+{% endblock content %}
+
+ 

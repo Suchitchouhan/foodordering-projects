@@ -1,0 +1,34 @@
+ {% extends "cms/base.html" %}
+      {% block content %}
+      <div id="customer-product">
+         <ul class="special-head">
+            <li><a href="/index/">Home</a></li>
+            <li>Previoius Order Complete</li>
+         </ul>
+         <table class="large-table">
+            <tr>
+               <th>name</th>
+               <th>brandname</th>
+               <th>store / Restaurant name</th>
+               <th>category</th>
+               <th>price</th>
+               <th>Description</th>
+               <th>itme_type</th>
+            </tr>
+            {% for a,b,c,d,e,f,g,h in item %}
+            <tr>
+               <td><a href="/single_product_details/{{ a }}/">{{ b }}</a></td>
+               <td>{{ c }}</td>
+               <td>{{ d }}</td>
+               <td>{{ e }}</td>
+               <td>{{ f }}</td>
+               <td>{{ g }}</td>
+               <td>{{ h }}</td>
+            </tr>
+            {% endfor %}
+         </table>
+         <a class="back-btn" href="/single_customer_panel/{{ c_uid }}/"><span>&#8592;</span> Back</a>
+      </div>
+
+
+{% endblock content %}         

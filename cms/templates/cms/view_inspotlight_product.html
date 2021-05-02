@@ -1,0 +1,43 @@
+{% extends "cms/base.html" %}
+      {% block content %}
+       <div id="store">
+         <ul class="special-head">
+            <li><a href="/index/">Home</a></li>
+            <li><a href="/view_store/">Store</a></li>
+          </ul>
+         <a class="add-btn" href="/add_insplotlight_product">&#43; ADD inspotlight</a>
+         <div class="table-wrapper">
+            <table class="large-table">
+               <tr>
+                  <th>UID</th>
+                  <th>name</th>
+                  <th>brandname</th>
+                  <th>price</th>
+                  <th>des</th>
+                  <th>highlight</th>
+                  <th>overview</th>
+                  <th>gst</th>
+                  <th>Operation</th>
+               </tr>
+               {% for x in product %}
+               <tr>
+                  <td>{{ x.product.uid }}</td>
+                  <td>{{ x.product.name }}</td>
+                  <td>{{ x.product.brandname }}</td>
+                  <td>{{ x.product.price }}</td>
+                  <td>{{ x.product.des }}</td>
+                  <td>{{ x.product.highlight }}</td>
+                  <td>{{ x.product.overview }}</td>
+                  <td>{{ x.product.gst }}</td>
+                  <td>
+                     <a class="small-btn" href="/remove_inspotlight_product/{{ x.pk }}" style="font-size: 0.7rem;">Delete</a>
+                  </td>
+               </tr>
+               {% endfor %}
+            </table>
+         </div>
+         
+         <a class="back-btn" href="/index"><span>&#8592;</span> Back</a>
+      </div>
+
+{% endblock content %}            

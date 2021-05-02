@@ -1,0 +1,35 @@
+{% extends "cms/base.html" %}
+      {% block content %}
+      <div id="store-categories">
+         <ul class="special-head">
+            <li><a href="/index/">Home</a></li>
+            <li> Social Cause</li>
+          </ul>
+         <a class="add-btn" href="/add_social_cause">&#43; ADD Cause</a>
+         <div class="table-wrapper">
+            <table class="small-table">
+               <thead>
+                  <tr>
+                     <th>Name</th>
+                     <th>Description</th>
+                     <th>Operation</th>
+                  </tr>
+               </thead>
+               <tbody>
+               	{% for x in donate %}
+                  <tr>
+                     <td id="storeName">{{ x.name }}</td>
+                     <td id="storeDesc">{{ x.des }}</td>
+                     <td>
+                        <a class="small-btn" href="/remove_social_cause/{{ x.pk }}" style="font-size: 0.7rem;">Delete</a>
+                     </td>
+                  </tr>
+                  {% endfor %}
+               </tbody>
+            </table> 
+         </div>
+
+         <a class="back-btn" href="/index/"><span>&#8592;</span> Back</a>
+      </div>
+
+{% endblock content %}      

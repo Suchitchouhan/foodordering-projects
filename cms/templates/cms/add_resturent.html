@@ -1,0 +1,97 @@
+{% extends "cms/base.html" %}
+      {% block content %}
+       <div id="store-categories">
+         <ul class="special-head">
+            <li><a href="/index/">Home</a></li>
+            <li><a href="/view_resturent/">Restaurant</a></li>
+            <li>Add a Restaurant</li>
+          </ul>
+   
+         <form action="/add_resturent/" method="POST" enctype="multipart/form-data" class="add-a-store-form">
+            {% csrf_token %}
+            <div class="storesInputsWrapper">
+               <div class="uname-field">
+                  <label for="u-name">Username: </label>
+                  <input type="text" name="username" placeholder="Username" required>
+               </div>
+               <div class="fname-field">
+                  <label for="f-name">First Name: </label>
+                  <input type="text" name="first_name" placeholder="First Name" required>
+               </div>
+               <div class="lname-field">
+                  <label for="l-name">Last Name: </label>
+                  <input type="text" name="last_name" placeholder="Last Name" required>
+               </div>
+               <div class="email-field">
+                  <label for="email">Email: </label>
+                  <input type="email" name="email" placeholder="Email" required>
+               </div>
+               <div class="password-field">
+                  <label for="pwd">Password: </label>
+                  <input type="password" name="password" placeholder="Password" required>
+               </div>
+               <div class="mobile-field">
+                  <label for="mobile">Mobile: </label>
+                  <input type="text" name="mobile" placeholder="Mobile" required>
+               </div>
+               <div class="sname-field">
+                  <label for="sname">restaurant Name: </label>
+                  <input type="text" name="resturent_name" placeholder="Resturent Name" required>
+               </div>
+               <div class="city-field">
+                  <label for="city">City: </label>
+                  <input type="text" name="city" placeholder="City" required>
+               </div>
+               <div class="state-field">
+                  <label for="state">State: </label>
+                  <input type="text" name="state" placeholder="State" required>
+               </div>
+               <div class="zip-field">
+                  <label for="zip">Zip code: </label>
+                  <input type="text" name="zipcode" placeholder="Zip code" required>
+               </div>
+               <div class="address-field">
+                  <label for="address">Address: </label>
+                  <input type="text" name="address" placeholder="Address" required>
+               </div>
+               <div class="address-field">
+                  <label for="address">Average Price: </label>
+                  <input type="number" name="average_price" placeholder="average price of Resturent " required>
+               </div>
+               <div class="address-field">
+                  <label for="address">Locality: </label>
+                  <input type="text" name="locality" placeholder="Locality" required>
+               </div>
+   
+   
+               <div class="img-field">
+                  <label for="image">Resturent Image 1: </label>
+                  <input type="file" name="image"  required>
+               </div>           
+               <div class="img-field">
+                  <label for="image">Resturent Image 2: </label>
+                  <input type="file" name="image1" required>
+               </div> 
+           
+               
+    
+
+               <div class="options-field">
+                  <label for="category">Category: </label>
+                  <select name="resturent_category" class="category" required>
+                  	{% for x in category %}
+                     <option value="{{ x.name }}">{{ x.name }}</option>
+                     {% endfor %}
+                  </select>
+
+               </div>        
+            </div>
+            <button class="add-btn" href="#">Create</button>
+         </form>
+
+         <p>{{ message }}</p>
+
+         <a class="back-btn" href="/view_resturent/"><span>&#8592;</span> Back</a>
+      </div>
+
+{% endblock content %}      

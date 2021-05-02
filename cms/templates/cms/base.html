@@ -1,0 +1,74 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head> 
+   <meta charset="UTF-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <title>Panel</title>
+   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css" integrity="sha512-tS3S5qG0BlhnQROyJXvNjeEM4UpMXHrQfTGmbQ1gKmelCxlSEBUaxhRBj/EFTzpbP4RVSrpEikbmdJobCvhE3g==" crossorigin="anonymous" />
+   <link rel="stylesheet" href="{% static 'cms/css/font-awesome-all.min.css' %}" type="text/css">
+   <link rel="stylesheet" href="{% static 'cms/css/style.css' %}" type="text/css">
+</head>
+<body>
+   <main class="main">
+      <button id="btn"> 
+         <span></span>
+         <span></span>
+         <span></span>
+      </button>
+      <nav class="nav">
+         <h2 class="nav-title"><span><i class="fas fa-user"></i></span>{{ username }}</h2>
+         <ul>
+            <li><a class="links" href="/index/">Home <span><i class="fas fa-angle-right"></i></span></a></li>
+            <li><a class="links" href="/view_store_category/">Store categories <span><i class="fas fa-angle-right"></i></span></a></li>
+            <li><a class="links" href="/view_store/">Stores <span><i class="fas fa-angle-right"></i></span></a></li>
+            <li><a class="links" href="/view_store_product_category/">Product categories <span><i class="fas fa-angle-right"></i></span></a></li>
+            <li><a class="links" href="/view_resturent_category/">Restaurant categories <span><i class="fas fa-angle-right"></i></span></a></li>
+            <li><a class="links" href="/view_resturent/">Restaurant <span><i class="fas fa-angle-right"></i></span></a></li>
+            <li><a class="links" href="/view_food_category/">Food categories <span><i class="fas fa-angle-right"></i></span></a></li>
+            <li><a class="links" href="/manage_customer/">Customers <span><i class="fas fa-angle-right"></i></span></a></li>
+            <li><a class="links" href="/delivery_details/">Delivery <span><i class="fas fa-angle-right"></i></span></a></li>
+            <li><a class="links" href="/view_promo_code/">Promo code <span><i class="fas fa-angle-right"></i></span></a></li>
+            <li><a class="links" href="/view_resturent_spotlight">Restaurant Spotlight<span><i class="fas fa-angle-right"></i></span></a></li>
+            <li><a class="links" href="/view_store_spotlight">Store Spotlight<span><i class="fas fa-angle-right"></i></span></a></li>
+            <li><a class="links" href="/view_social_cause">Social Cause<span><i class="fas fa-angle-right"></i></span></a></li>
+            <li><a class="links" href="/add_banner">add banner<span><i class="fas fa-angle-right"></i></span></a></li>
+            <li><a class="links" href="/view_inspotlight_product_cat">Inspotlight prodcut Category<span><i class="fas fa-angle-right"></i></span></a></li>
+            <li><a class="links" href="/view_inspotlight_food_cat">Inspotlight food Category<span><i class="fas fa-angle-right"></i></span></a></li>
+            <li><a class="links" href="/view_inspotlight_food">Inspotlight food<span><i class="fas fa-angle-right"></i></span></a></li>
+            <li><a class="links" href="/view_inspotlight_product">Inspotlight product<span><i class="fas fa-angle-right"></i></span></a></li>
+            <li><a class="links" href="/view_special_resturent">special  Restaurant<span><i class="fas fa-angle-right"></i></span></a></li>
+            <li><a class="links" href="/upload_resturent_csv">Upload Restaurant Csv<span><i class="fas fa-angle-right"></i></span></a></li>
+            <li><a class="links" href="/upload_store_csv">Upload Store Csv<span><i class="fas fa-angle-right"></i></span></a></li>
+
+
+             <li><a class="links" href="/upload_product_csv">Upload Product Csv<span><i class="fas fa-angle-right"></i></span></a></li>
+
+              <li><a class="links" href="/upload_food_csv">Upload food Csv<span><i class="fas fa-angle-right"></i></span></a></li>
+
+            <li><a class="links" href="/view_store_log">Store log<span><i class="fas fa-angle-right"></i></span></a></li>
+
+             <li><a class="links" href="/view_resturent_log">Restaurant log<span><i class="fas fa-angle-right"></i></span></a></li>
+
+
+
+         </ul>
+         <a class="logout" href="/logout_view/">Logout</a>
+      </nav>
+         {% if message %}
+            <script type="text/javascript">
+               alert("{{ message }}");
+            </script>
+         {% endif %}
+
+      {% block content %}
+      {% endblock content %}   
+   </main>
+   
+   <script src="{% static 'cms/js/jquery.js' %}" type="text/javascript"></script>
+   <!-- <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script> -->
+   <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js" integrity="sha512-bPs7Ae6pVvhOSiIcyUClR7/q2OAsRiovw4vAkX+zJbw3ShAeeqezq50RIIcIURq7Oa20rW2n2q+fyXBNcU9lrw==" crossorigin="anonymous"></script>
+   <script src="{% static 'cms/js/font-awesome-all.min.js' %}" type="text/javascript"></script>
+   <script src="{% static 'cms/js/main.js' %}" type="text/javascript"></script>
+</body>
+</html> 

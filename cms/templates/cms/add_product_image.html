@@ -1,0 +1,26 @@
+{% extends "cms/base.html" %}
+      {% block content %}
+      <div id="store-categories">
+         <ul class="special-head">
+            <li><a href="/index/">Home</a></li>
+            <li><a href="/view_product_image/{{ uid }}/">Product Image</a></li>
+            <li>Add a Image</li>
+          </ul>
+         <h2 class="special-head">Add a Image</h2>
+         <button class="addMoreToProduct" id="addIt"><span><i class="fas fa-plus"></i></span>Add More</button>
+         <form action="/add_product_image/{{ uid }}/" method="POST" enctype="multipart/form-data" class="add-form">
+         	{% csrf_token %}
+            <div class="imageadd">
+	    		<div class="img-field">
+	          		<label for="image">Image: </label>
+	          		<input type="file" name="image" required />
+	       		</div>  
+            </div>
+                 
+            <button class="add-btn" href="#">Upload</button>
+         </form>
+         
+         <a class="back-btn" href="/view_product_image/{{ uid }}/"><span>&#8592;</span> Back</a>
+      </div>
+
+{% endblock content %}      

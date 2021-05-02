@@ -1,0 +1,43 @@
+ {% extends "cms/base.html" %}
+      {% block content %}
+         <div id="user-profile">
+         <ul class="special-head">
+            <li><a href="/index/">Home</a></li>
+            <li><a href="/manage_customer/">Customers</a></li>
+            <li>Customer Profile</li>
+         </ul>
+         <div>
+            <div class="user-image">
+               <img src="{{ customer.image.url }}" alt="img" width="200">
+            </div>
+            <ul class="user-info">
+               <li>
+                  <p>Username:</p><span>{{ customer.user.username }}</span>
+               </li>
+               <li>
+                  <p>Full Name:</p><span>{{ customer.user.first_name }} {{ customer.user.last_name }}</span>
+               </li>
+               <li>
+                  <p>Email:</p><span>{{ customer.user.email }}</span>
+               </li>
+               <li>
+                  <p>billing city:</p><span>{{ customer.billing_city }}</span>
+               </li>
+               <li>
+                  <p>Billing state:</p><span>{{ customer.billing_state }}</span>
+               </li><li>
+                  <p>Billing Zipcode:</p><span>{{ customer.billing_zipcode }}</span>
+               </li><li>
+                  <p>Billing Adress:</p><span>{{ customer.billing_address }}</span>
+               </li>
+            </ul>
+         </div>
+            <a href="/product_for_order/{{ customer.uid }}/" class="small-btn">Product</a>
+            <a href="/see_cart/{{ customer.uid }}/" class="small-btn">Cart</a>
+            <a href="/previous_order_complete/{{ customer.uid }}/" class="small-btn">order completed</a>
+            <a href="/previous_order_pending/{{ customer.uid }}/" class="small-btn">orders pending</a>
+            <a href="/cancel_order_pending/{{ customer.uid }}/" class="small-btn">Canceled orders</a>
+         
+         <a class="back-btn" href="/manage_customer/"><span>&#8592;</span> Back</a>
+      </div>
+{% endblock content %}            

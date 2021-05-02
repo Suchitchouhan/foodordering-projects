@@ -1,0 +1,38 @@
+ {% extends "cms/base.html" %}
+      {% block content %}
+      <div id="customer-product">
+         <ul class="special-head">
+            <li><a href="/index/">Home</a></li>
+            <li><a href="/manage_customer/">Customers</a></li>
+            <li><a href="/ordered_items/{{ c_uid }}/">User Profile</a></li>
+            <li>Previoius Order Complete</li>
+         </ul>
+         <table class="large-table">
+            <tr>
+               <th>Order id</th>
+               <th>Date</th>
+               <th>City</th>
+               <th>State</th>
+               <th>Zip code</th>
+               <th>Address</th>
+               <th>Order Type</th>
+               <th>amount</th>
+            </tr>
+            {% for a,b,c,d,e,f,g,h in previous_order %}
+            <tr>
+               <td><a href="/ordered_items/{{ a }}/">{{ a }}</a></td>
+               <td>{{ b }}</td>
+               <td>{{ c }}</td>
+               <td>{{ d }}</td>
+               <td>{{ e }}</td>
+               <td>{{ f }}</td>
+               <td>{{ g }}</td>
+               <td>{{ h }}</td>
+            </tr>
+            {% endfor %}
+         </table>
+         <a class="back-btn" href="/single_customer_panel/{{ c_uid }}/"><span>&#8592;</span> Back</a>
+      </div>
+
+
+{% endblock content %}         

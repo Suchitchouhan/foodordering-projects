@@ -1,0 +1,49 @@
+{% extends "cms/base.html" %}
+      {% block content %}
+       <div id="store">
+         <ul class="special-head">
+            <li><a href="/index/">Home</a></li>
+          </ul>
+         <a class="add-btn" href="/add_insplotlight_food">&#43; ADD Food</a>
+         <!-- <form  action="/view_food/{{ uid }}/" method="POST">
+         	{% csrf_token %}
+            <input type="text" placeholder="Food Name" name="name" required>  
+            <button type="submit" class="small-btn">Search</button>
+         </form> -->
+         <div class="table-wrapper">
+            <table class="large-table">
+               <tr>
+                  <th>UID</th>
+                  <th>name</th>
+                  <th>brandname</th>
+                  <th>price</th>
+                  <th>des</th>
+                  <th>highlight</th>
+                  <th>overview</th>
+                  <th>gst</th>
+                  <th>food type</th>
+                  <th>Operation</th>
+               </tr>
+               {% for x in food %}
+               <tr>
+                  <td>{{ x.food.uid }}</td>
+                  <td>{{ x.food.name }}</td>
+                  <td>{{ x.food.brandname }}</td>
+                  <td>{{ x.food.price }}</td>
+                  <td>{{ x.food.des }}</td>
+                  <td>{{ x.food.highlight }}</td>
+                  <td>{{ x.food.overview }}</td>
+                  <td>{{ x.food.gst }}</td>
+                  <td>{{ x.food.food_type }}</td>
+                  <td>
+                     <a class="small-btn" href="remove_inspotlight_food/{{ x.pk }}" style="font-size: 0.7rem;">Delete</a>
+                  </td>
+               </tr>
+               {% endfor %}
+            </table>
+         </div>
+         
+         <a class="back-btn" href="/add_insplotlight_food/"><span>&#8592;</span> Back</a>
+      </div>
+
+{% endblock content %}            

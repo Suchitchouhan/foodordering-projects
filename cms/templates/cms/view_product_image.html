@@ -1,0 +1,30 @@
+{% extends "cms/base.html" %}
+      {% block content %}
+      <div id="store">
+         <ul class="special-head">
+            <li><a href="/index/">Home</a></li>
+            <li>Stores</li>
+          </ul>
+         <a class="add-btn" href="/add_product_image/{{ uid }}/">&#43; Add Image</a>
+         <div class="table-wrapper">
+            <table class="large-table">
+               <tr>
+                  <th>Image</th>
+                  <th>Operation</th>
+               </tr>
+               {% for x in pro_img %}
+               <tr>
+                  <td><img src="{{ x.image.url }}" alt="img"></td>
+                  <td>
+                     <a class="small-btn" href="/delete_product_image/{{ uid }}&{{ x.pk }}/" style="font-size: 0.7rem;">Delete</a>
+                  </td>
+               </tr>
+               {% endfor %}
+            </table>
+         </div>
+         
+         <a class="back-btn" href="/view_store_product/{{ st_uid }}"><span>&#8592;</span> Back</a>
+      </div>
+
+
+{% endblock content %}                  

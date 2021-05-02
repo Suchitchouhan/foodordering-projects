@@ -1,0 +1,71 @@
+{% extends "cms/base.html" %}
+      {% block content %}
+      <div id="store-categories">
+         <ul class="special-head">
+            <li><a href="/index/">Home</a></li>
+            <li><a href="/view_resturent/">Resturent</a></li>
+            <li><a href="/view_food/{{ st_uid }}/">Foods</a></li>
+            <li>Update Foods</li>
+          </ul>
+         <h2 class="special-head">Update Foods</h2>
+         <form action="/update_food/{{ uid }}/" method="POST" class="add-form">
+         	{% csrf_token %}
+            <div class="productInputsWrapper">
+               <div class="name-field">
+                  <label for="name">Name: </label>
+                  <input type="text" name="name" value="{{ food.name }}" placeholder="Food Name" required />
+               </div>
+               <div class="name-field">
+                  <label for="name">Price: </label>
+                  <input type="number" name="price" placeholder="Food Price" value="{{ food.price }}" required />
+               </div>
+               <div class="name-field">
+                  <label for="name">Description: </label>
+                  <input type="text" name="des" placeholder="Description" value="{{ food.des }}" required />
+               </div>
+               <div class="name-field">
+                  <label for="category">Category: </label>
+                  <select name="category_name" class="category" required>
+                     <option value="{{ food.food_category.name }}">{{ food.food_category.name }} </option>
+                  	{% for x in category %}
+                     <option value="{{ x.name }}">{{ x.name }}</option>
+                     {% endfor %}
+                  </select>
+
+               </div> 
+               <div class="name-field">
+                  <label for="name">brandname: </label>
+                  <input type="text" name="brandname" value="{{ food.brandname }}" placeholder="Brandname" required />
+               </div>
+               <div class="name-field">
+                  <label for="name">highlight: </label>
+                  <input value="{{ food.highlight }}" type="text" name="highlight" placeholder="Highlight" required />
+               </div>
+               <div class="name-field">
+                  <label for="name">Overview: </label>
+                  <input type="text" name="overview" value="{{ food.overview }}" placeholder="Overview" required />
+               </div>
+               <div class="name-field">
+                  <label for="name">gst: </label>
+                  <input type="number" name="gst" value="{{ food.gst }}" placeholder="GST applied on product" required />
+               </div>  
+               <div class="name-field">
+                  <label for="category">food_type: </label>
+                  <select name="food_type" class="category" required>
+                     <option value="{{ food.food_type }}">{{ food.food_type }}</option>
+                     <option value="Veg">Veg</option>
+                     <option value="Nveg">Non-veg</option>
+		<option value="Egg">Egg</option>		
+                  </select>
+
+               </div> 
+            </div>
+                 
+            <button class="add-btn" href="#">Update</button>
+         </form>
+         
+         <a class="back-btn" href="/view_food/{{ st_uid }}/"><span>&#8592;</span> Back</a>
+      </div>
+
+
+{% endblock content %}            

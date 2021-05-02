@@ -1,0 +1,37 @@
+{% extends "cms/base.html" %}
+      {% block content %}
+       <div id="customer">
+         <ul class="special-head">
+            <li><a href="/index/">Home</a></li>
+            <li>Customer</li>
+          </ul>
+         <form action="#">
+            <input type="text" placeholder="Search for a use">  
+            <button type="submit" class="small-btn">Search</button>
+         </form>
+         <div class="table-wrapper">
+            <table class="small-table">
+               <tr>
+                  <th>Username</th>
+                  <th>Full Name</th>
+                  <th>Email</th>
+                  <th>Mobile</th>
+                  <th>Operation</th>
+               </tr>
+               {% for x in customer %}
+               <tr>
+                  <td>{{ x.user.username }}</a></td>
+                  <td>{{ x.user.first_name }} {{ x.user.last_name }}</a></td>
+                  <td>{{ x.user.email }}</td>
+                  <td>{{ x.mobile }}</td>
+                  <td><a class="small-btn" href="/single_customer_panel/{{ x.uid }}/" style="font-size: 0.7rem;">open</a></td>
+               </tr>
+               {% endfor %}
+            </table>
+         </div>
+
+         <a class="back-btn" href="/index/"><span>&#8592;</span> Back</a>
+      </div>
+
+
+{% endblock content %}                        

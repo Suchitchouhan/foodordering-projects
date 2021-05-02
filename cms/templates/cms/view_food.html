@@ -1,0 +1,72 @@
+{% extends "cms/base.html" %}
+      {% block content %}
+       <div id="store">
+         <ul class="special-head">
+            <li><a href="/index/">Home</a></li>
+            <li><a href="/view_store/">Store</a></li>
+          </ul>
+         <a class="add-btn" href="/add_food/{{ uid }}">&#43; ADD Food</a>
+         <form  action="/view_food/{{ uid }}/" method="POST">
+         	{% csrf_token %}
+            <input type="text" placeholder="Food Name" name="name" required>  
+            <button type="submit" class="small-btn">Search</button>
+         </form>
+         <div class="table-wrapper">
+            <table class="large-table">
+               <tr>
+                  <th>UID</th>
+                  <th>name</th>
+                  <th>brandname</th>
+                  <th>price</th>
+                  <th>des</th>
+                  <th>highlight</th>
+                  <th>overview</th>
+                  <th>gst</th>
+                  <th>food type</th>
+                  <th>Food extra item</th>
+                  <th>Food extra item price</th>
+                  <th>Food sub Category name</th>
+                  <th>Food sub Category price</th>
+
+                  <th>Operation</th>
+               </tr>
+               {% for x,y,z,h,g in food %}
+               <tr>
+                  <td>{{ x.uid }}</td>
+                  <td>{{ x.name }}</td>
+                  <td>{{ x.brandname }}</td>
+                  <td>{{ x.price }}</td>
+                  <td>{{ x.des }}</td>
+                  <td>{{ x.highlight }}</td>
+                  <td>{{ x.overview }}</td>
+                  <td>{{ x.gst }}</td>
+                  <td>{{ x.food_type }}</td>
+                  <td>{% for x in y %}
+                        <p>{{ x }}</p>
+                        {% endfor %}
+                  </td>
+                  <td>{% for x in z %}
+                        <p>{{ x }}</p>
+                        {% endfor %}
+                     </td>
+                     <td>{% for x in h %}
+                        <p>{{ x }}</p>
+                        {% endfor %}</td>
+                     <td>{% for x in g %}
+                        <p>{{ x }}</p>
+                        {% endfor %}</td>
+                  <td>
+                     <a class="small-btn" href="/update_food/{{ x.uid }}/" style="font-size: 0.7rem;">Update</a>
+                     <a class="small-btn" href="/view_food_image/{{ x.uid }}/" style="font-size: 0.7rem;">Image</a>
+                     <a class="small-btn" href="/view_food_specification/{{ x.uid }}/" style="font-size: 0.7rem;">Specification</a>
+                     <a class="small-btn" href="/delete_food/{{ x.uid }}/" style="font-size: 0.7rem;">Delete</a>
+                  </td>
+               </tr>
+               {% endfor %}
+            </table>
+         </div>
+         
+         <a class="back-btn" href="/view_resturent/"><span>&#8592;</span> Back</a>
+      </div>
+
+{% endblock content %}            

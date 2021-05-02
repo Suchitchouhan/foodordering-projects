@@ -1,0 +1,72 @@
+{% extends "cms/base.html" %}
+      {% block content %}
+       <div id="store-categories">
+         <ul class="special-head">
+            <li><a href="/index/">Home</a></li>
+            <li><a href="/view_resturent/">Restaurant</a></li>
+            <li>Add a Resturent</li>
+          </ul>
+   
+         <form action="/update_resturent/{{ uid }}/" method="POST" enctype="multipart/form-data" class="add-a-store-form">
+            {% csrf_token %}
+            <div class="storesInputsWrapper">
+               <div class="mobile-field">
+                  <label for="mobile">Mobile: </label>
+                  <input type="text" name="mobile" value="{{ resturent.mobile }}" placeholder="Mobile" required>
+               </div>
+               <div class="sname-field">
+                  <label for="sname">Resturent Name: </label>
+                  <input type="text" name="resturent_name" placeholder="Resturent Name" value="{{ resturent.resturent_name }}" required>
+               </div>
+               <div class="city-field">
+                  <label for="city">City: </label>
+                  <input type="text" name="city" placeholder="City" value="{{ resturent.city }}" required>
+               </div>
+               <div class="state-field">
+                  <label for="state">State: </label>
+                  <input type="text" name="state" value="{{ resturent.state }}" placeholder="State" required>
+               </div>
+               <div class="zip-field">
+                  <label for="zip">Zip code: </label>
+                  <input type="text" name="zipcode" placeholder="Zip code" value="{{ resturent.zipcode }}" required>
+               </div>
+               <div class="address-field">
+                  <label for="address">Address: </label>
+                  <input type="text" name="address" value="{{ resturent.address }}" placeholder="Address" required>
+               </div>
+               <div class="address-field">
+                  <label for="address">Average Price: </label>
+                  <input type="number" name="average_price" value="{{ resturent.average_price }}" placeholder="average price of Resturent " required>
+               </div>
+               <div class="address-field">
+                  <label for="address">Locality: </label>
+                  <input type="text" name="locality" value="{{ resturent.locality }}" placeholder="Locality" required>
+               </div>
+   
+   
+               <div class="img-field">
+                  <label for="image">Resturent Image 1: </label>
+                  <input type="file" name="image"  required>
+               </div>           
+               <div class="img-field">
+                  <label for="image">Resturent Image 2: </label>
+                  <input type="file" name="image1" required>
+               </div>  
+               <div class="options-field">
+                  <label for="category">Category: </label>
+                  <select name="resturent_category" class="category" required>
+                     <option value="{{ resturent.category.name }}">{{ resturent.category.name }}</option>
+                  	{% for x in category %}
+                     <option value="{{ x.name }}">{{ x.name }}</option>
+                     {% endfor %}
+                  </select>
+
+               </div>        
+            </div>
+            <button class="add-btn" href="#">Update</button>
+         </form>
+         
+         <a class="back-btn" href="/view_resturent/"><span>&#8592;</span> Back</a>
+      </div>
+
+{% endblock content %}      

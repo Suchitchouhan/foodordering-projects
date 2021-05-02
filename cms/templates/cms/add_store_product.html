@@ -1,0 +1,60 @@
+{% extends "cms/base.html" %}
+      {% block content %}
+      <div id="store-categories">
+         <ul class="special-head">
+            <li><a href="/index/">Home</a></li>
+            <li><a href="/view_store/">Store</a></li>
+            <li><a href="/view_store_product/{{ uid }}">Products</a></li>
+            <li>Add a Product</li>
+          </ul>
+         <h2 class="special-head">Add a Product</h2>
+         <form action="/add_store_product/{{ uid }}/" method="POST" class="add-form">
+         	{% csrf_token %}
+            <div class="productInputsWrapper">
+               <div class="name-field">
+                  <label for="name">Name: </label>
+                  <input type="text" name="name" placeholder="Product Name" required />
+               </div>
+               <div class="name-field">
+                  <label for="name">Price: </label>
+                  <input type="number" name="price" placeholder="Product Price" required />
+               </div>
+               <div class="name-field">
+                  <label for="name">Description: </label>
+                  <input type="text" name="des" placeholder="Description" required />
+               </div>
+               <div class="name-field">
+                  <label for="category">Category: </label>
+                  <select name="category_name" class="category" required>
+                  	{% for x in category %}
+                     <option value="{{ x.name }}">{{ x.name }}</option>
+                     {% endfor %}
+                  </select>
+
+               </div> 
+               <div class="name-field">
+                  <label for="name">brandname: </label>
+                  <input type="text" name="brandname" placeholder="Brandname" required />
+               </div>
+               <div class="name-field">
+                  <label for="name">highlight: </label>
+                  <input type="text" name="highlight" placeholder="Highlight" required />
+               </div>
+               <div class="name-field">
+                  <label for="name">Overview: </label>
+                  <input type="text" name="overview" placeholder="Overview" required />
+               </div>
+               <div class="name-field">
+                  <label for="name">gst: </label>
+                  <input type="number" name="gst" placeholder="GST applied on product" required />
+               </div>  
+            </div>
+                 
+            <button class="add-btn" href="#">Create</button>
+         </form>
+         
+         <a class="back-btn" href="/view_store_product/{{ uid }}"><span>&#8592;</span> Back</a>
+      </div>
+
+
+{% endblock content %}            

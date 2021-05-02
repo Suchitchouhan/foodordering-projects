@@ -1,0 +1,48 @@
+{% extends "cms/base.html" %}
+      {% block content %}
+       <div id="store-categories">
+         <ul class="special-head">
+            <li><a href="/index/">Home</a></li>
+            <li><a href="/view_store/">Stores</a></li>
+            <li>Add a Store</li>
+          </ul>
+         <button class="addMoreToStoreButton"><span><i class="fas fa-plus"></i></span>Add More</button>
+         <form action="/place_order_on_different_address/{{ c_uid }}/" method="POST" enctype="multipart/form-data" class="add-a-store-form">
+            {% csrf_token %}
+            <div class="storesInputsWrapper">
+               <div class="city-field">
+                  <label for="city">City: </label>
+                  <input type="text" name="shipping_city" placeholder="City" required>
+               </div>
+               <div class="state-field">
+                  <label for="state">State: </label>
+                  <input type="text" name="shipping_state" placeholder="State" required>
+               </div>
+               <div class="zip-field">
+                  <label for="zip">Zip code: </label>
+                  <input type="text" name="shipping_zipcode" placeholder="Zip code" required>
+               </div>
+               <div class="address-field">
+                  <label for="address">Address: </label>
+                  <input type="text" name="shipping_address" placeholder="Address" required>
+               </div> 
+                <div class="address-field">
+                  <label for="address">code: </label>
+                  <input type="text" name="code" placeholder="Promo code" required>
+               </div> 
+               <div class="address-field">
+                  <label for="category">Delivery employee: </label>
+                  <select name="delivery_employee_uid" class="category" required>
+                     {% for x in delivery_employee %}
+                     <option value="{{ x.uid }}">{{ x.name }} <-> {{ x.mobile }} <-> {{ x.user.email }} <-> {{ x.city }} <-> {{ z.zipcode }} <-> {{ x.address }}</option>
+                     {% endfor %}
+                  </select>
+               </div>     
+            </div>
+            <button class="add-btn" href="#">Create</button>
+         </form>
+         
+         <a class="back-btn" href="/see_cart/{{ c_uid }}/"><span>&#8592;</span> Back</a>
+      </div>
+
+{% endblock content %}      

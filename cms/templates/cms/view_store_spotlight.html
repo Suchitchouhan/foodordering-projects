@@ -1,0 +1,61 @@
+{% extends "cms/base.html" %}
+      {% block content %}
+       <div id="store">
+         <ul class="special-head">
+            <li><a href="/index/">Home</a></li>
+            <li>Store Spotlight</li>
+          </ul>
+         <a class="add-btn" href="/add_to_spotlight_store">&#43; ADD Spotlight</a>
+
+         <form action="/view_resturent_spotlight/" method="POST">
+         	{% csrf_token %}
+            <input type="text" placeholder="Mobile Number" name="mobile" required>  
+            <button type="submit" class="small-btn">Search</button>
+         </form>
+         <div class="table-wrapper">
+            <table class="large-table">
+               <tr>
+                  <th>UID</th>
+                  <th>Username</th>
+                  <th>Full Name</th>
+                  <th>store Name</th>
+                  <th>Email</th>
+                  <th>Mobile</th>
+                  <th>City</th>
+                  <th>State</th>
+                  <th>Zip code</th>
+                  <th>Address</th>
+                  <th>locality</th>
+                  <th>Category</th>
+                  <th>Image</th>
+                  <th>Image 1</th>
+                  <th>Operation</th>
+               </tr>
+               {% for x in store %}
+               <tr>
+                  <td>{{ x.storeK.uid }}</td>
+                  <td>{{ x.storeK.user.username }}</td>
+                  <td>{{ x.storeK.user.first_name }} {{ x.storeK.user.last_name }}</td>
+                  <td>{{ x.storeK.store_name }}</td>
+                  <td>{{ x.storeK.user.email }}</td>
+                  <td>{{ x.storeK.mobile }}</td>
+                  <td>{{ x.storeK.city }}</td>
+                  <td>{{ x.storeK.state }}</td>
+                  <td>{{ x.storeK.zipcode }}</td>
+                  <td>{{ x.storeK.address }}</td>
+                  <td>{{ x.storeK.locality }}</td>
+                  <td>{{ x.storeK.category.name }}</td>
+                  <td><img src="{{ x.storeK.image.url }}" alt="img"></td>
+                  <td><img src="{{ x.storeK.image1.url }}" alt="img"></td>
+                  <td>
+                     <a class="small-btn" href="/remove_from_spotlight_store/{{ x.pk }}" style="font-size: 0.7rem;">Delete</a>
+                  </td>
+               </tr>
+               {% endfor %}
+            </table>
+         </div>
+         
+         <a class="back-btn" href="/index/"><span>&#8592;</span> Back</a>
+      </div>
+
+{% endblock content %}            

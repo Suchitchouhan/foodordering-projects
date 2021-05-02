@@ -1,0 +1,24 @@
+{% extends "cms/base.html" %}
+      {% block content %}
+       <div id="store-categories">
+         <ul class="special-head">
+            <li><a href="/index/">Home</a></li>
+            <li><a href="/view_inspotlight_food_cat">Spotlight food category </a></li>
+          </ul>
+         <form action="/add_inspotlight_food_cat" method="POST" enctype="multipart/form-data" class="add-form">
+         	{% csrf_token %}
+            <div class="inputs-wrapper">
+               {% for x in data %}
+               <div class="name-field">
+                  <label for="name">{{ x.name }} </label>
+                  <input type="checkbox" name="uid" value="{{ x.id }}">
+               </div>
+               {% endfor %}         
+            </div>
+            <button class="add-btn" href="#" type="submit">Create</button>
+         </form>
+         
+         <a class="back-btn" href="/view_inspotlight_food_cat"><span>&#8592;</span> Back</a>
+      </div>
+
+{% endblock content %}        

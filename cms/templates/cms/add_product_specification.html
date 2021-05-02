@@ -1,0 +1,30 @@
+{% extends "cms/base.html" %}
+      {% block content %}
+      <div id="store-categories">
+         <ul class="special-head">
+            <li><a href="/index/">Home</a></li>
+            <li><a href="/view_product_specification/{{ uid }}/">Product Specification</a></li>
+            <li>Add a Product specification</li>
+          </ul>
+         <h2 class="special-head">Add a Specification</h2>
+         <button class="addMoreToProduct" id="addMe"><span><i class="fas fa-plus"></i></span>Add More</button>
+         <form action="/add_product_specification/{{ uid }}/" method="POST" class="add-form">
+            {% csrf_token %}
+            <div class="yu">
+               <div class="name-field">
+                  <label for="name">Specification: </label>
+                  <input type="text" name="specification" placeholder="Specification" required />
+               </div>
+               <div class="desc-field">
+                  <label for="desc">Description: </label>
+                  <input type="text" name="des" placeholder="Description" required />
+               </div>   
+            </div>
+                 
+            <button class="add-btn" href="#">Create</button>
+         </form>
+         
+         <a class="back-btn" href="/view_product_specification/{{ st_uid }}/"><span>&#8592;</span> Back</a>
+      </div>
+
+{% endblock content %}      

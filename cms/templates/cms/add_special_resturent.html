@@ -1,0 +1,28 @@
+{% extends "cms/base.html" %}
+      {% block content %}
+       <div id="store-categories">
+         <ul class="special-head">
+            <li><a href="/index/">Home</a></li>
+            <li><a href="/view_special_resturent/">Restaurant Special</a></li>
+          </ul>
+         <form action="/add_special_resturent" method="POST" enctype="multipart/form-data" class="add-form">
+         	{% csrf_token %}
+            <div class="inputs-wrapper">
+               <div class="name-field">
+                  <label for="name">Name: </label>
+                  <input type="text" name="name" placeholder="Food Name"  />
+               </div>
+               {% for x in resturent %}
+               <div class="name-field">
+                  <label for="name">{{ x.resturent_name }} </label>
+                  <input type="checkbox" name="uid" value="{{ x.uid }}" >
+               </div>
+               {% endfor %}         
+            </div>
+            <button class="add-btn" href="#" type="submit">Create</button>
+         </form>
+         
+         <a class="back-btn" href="/view_special_resturent/"><span>&#8592;</span> Back</a>
+      </div>
+
+{% endblock content %}        

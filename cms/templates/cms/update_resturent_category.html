@@ -1,0 +1,31 @@
+{% extends "cms/base.html" %}
+      {% block content %}
+       <div id="store-categories">
+         <ul class="special-head">
+            <li><a href="/index/">Home</a></li>
+            <li><a href="/view_resturent_category/">Restaurant Categories</a></li>
+            <li>Update Category to Restaurant</li>
+          </ul>
+         <form action="/update_resturent_category/{{ pk }}/" method="POST" enctype="multipart/form-data" class="add-form">
+         	{% csrf_token %}
+            <div class="inputs-wrapper">
+               <div class="name-field">
+                  <label for="name">Name: </label>
+                  <input type="text" name="name" value="{{ des.name }}" placeholder="Don't use space please" required>
+               </div>
+               <div class="desc-field">
+                  <label for="des">Description: </label>
+                  <input type="text" name="des" value="{{ des.des }}" placeholder="Don't use space please" required>
+               </div>
+               <div class="img-field">
+                  <label for="image">Image: </label>
+                  <input type="file" name="image" required>
+               </div>           
+            </div>
+            <button class="add-btn" href="#" type="submit">Update</button>
+         </form>
+         
+         <a class="back-btn" href="/view_resturent_category/"><span>&#8592;</span> Back</a>
+      </div>
+
+{% endblock content %}        
